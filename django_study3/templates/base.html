@@ -47,15 +47,13 @@
                 </li>
                 <li>
                     <a href="#">New Post</a>
-{#                    <a href="{% url 'board:post_new' %}">New Post</a>#}
+                    {#<a href="{% url 'board:post_new' %}">New Post</a>#}
                 </li>
                 <li>
                     {% if user.is_active %}
-                        <a href="#">Logout</a>
-{#                        <a href="{% url 'logout' %}">Logout</a>#}
+                        <a href="{% url 'account:logout' %}">Logout</a>
                     {% else %}
-                        <a href="#">Login</a>
-{#                        <a href="{% url 'login' %}">Login</a>#}
+                        <a href="{% url 'account:login' %}">Login</a>
                     {% endif %}
                 </li>
                 {% if user.is_authenticated %}
@@ -75,10 +73,21 @@
 
 <!-- Page Header -->
 <!-- Set your background image for this header on the line below. -->
-
-
-{% block heading %}
-{% endblock %}
+<header class="intro-header" style="background-image: url('{% static 'img/home-bg.jpg' %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>Weekly English</h1>
+                    <hr class="small">
+                    <span class="subheading">
+                        {% block heading %}{% endblock %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
 
 <!-- Main Content -->

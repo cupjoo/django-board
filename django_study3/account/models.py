@@ -10,11 +10,13 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         'ID',
         max_length=30,
         unique=True,
-        help_text='아이디를 입력해 주세요.',
         validators=[
             MinLengthUsernameValidator(),
             UnicodeUsernameValidator(),
         ],
+        error_messages={
+            'unique': '이미 가입된 ID입니다.'
+        }
     )
     email = models.EmailField(
         '이메일',
@@ -27,7 +29,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         '핸드폰 번호',
         max_length=11,
         unique=True,
-        help_text='핸드폰 번호를 입력해주세요.',
         error_messages={
             'unique': '이미 가입된 휴대폰 번호입니다.'
         }
