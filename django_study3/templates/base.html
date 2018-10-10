@@ -46,8 +46,7 @@
                     <a href="{% url 'board:post_list' %}">Home</a>
                 </li>
                 <li>
-                    <a href="#">New Post</a>
-                    {#<a href="{% url 'board:post_new' %}">New Post</a>#}
+                    <a href="{% url 'board:post_create' %}">New Post</a>
                 </li>
                 <li>
                     {% if user.is_active %}
