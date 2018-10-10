@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block heading %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- 로그인 폼 -->
+        <form method="post" action="{% url 'account:info_change' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}" />
+            {{ form.as_p }}
+            <button type="submit">개인정보 바꾸기</button>
+        </form>
+    </div>
+{% endblock content %}

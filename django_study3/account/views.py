@@ -2,7 +2,7 @@ from django.contrib.auth import views, logout
 from django.contrib import messages
 from django.views.generic import RedirectView, CreateView
 from django.urls import reverse_lazy
-from .forms import UserCreationForm
+from .forms import UserCreationForm, InfoChangeForm
 
 
 class LoginView(views.LoginView):
@@ -42,10 +42,13 @@ class SignupView(CreateView):
         return super(SignupView, self).form_valid(form)
 
 
-# class PasswordChangeView(views.PasswordChangeView):
-#     template_name = 'account/password_change.html'
-#     success_url = '/'
-#
-#     def form_valid(self, form):
-#         messages.info(self.request, "비밀번호가 변경되었습니다.")
-#         return super(PasswordChangeView, self).form_valid(form)
+# 브라우저 종료 시 자동 로그아웃 구현
+# 클래스 오버라이딩
+class InfoChangeView(views.PasswordChangeView):
+    form_class = InfoChangeForm
+    success_url = '/'
+    template_name = 'account/info_change.html'
+
+    def form_valid(self, form):
+        messages.info(self.request, "개인정보가 변경되었습니다.")
+        return super(InfoChangeView, self).form_valid(form)
