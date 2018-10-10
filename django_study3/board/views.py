@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView
 from django.contrib import messages
 from django.db.models import Q
@@ -20,10 +21,12 @@ class PostLV(ListView):
             return queryset
 
 
-class PostCV(CreateView):
+class PostCV(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'board/post_create.html'
     form_class = PostForm
+    login_url = None
+    redirect_field_name = None
 
     def get_success_url(self):
         messages.info(self.request, '게시물이 작성되었습니다.')
@@ -32,3 +35,6 @@ class PostCV(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super(PostCV, self).form_valid(form)
+
+    def test_func(self):
+        pass

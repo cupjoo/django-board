@@ -45,9 +45,11 @@
                 <li>
                     <a href="{% url 'board:post_list' %}">Home</a>
                 </li>
-                <li>
-                    <a href="{% url 'board:post_create' %}">New Post</a>
-                </li>
+                {% if user.is_active %}
+                    <li>
+                        <a href="{% url 'board:post_create' %}">New Post</a>
+                    </li>
+                {% endif %}
                 <li>
                     {% if user.is_active %}
                         <a href="{% url 'account:logout' %}">Logout</a>
