@@ -35,7 +35,7 @@ class LogoutView(RedirectView):
 class SignupView(CreateView):
     form_class = UserCreationForm
     template_name = 'account/signup.html'
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy('account:login')
 
     def form_valid(self, form):
         messages.info(self.request, "회원가입되었습니다.")
