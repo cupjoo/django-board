@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <form method="POST" class="login-form" action="{% url 'account:login' %}">
+    <form method="POST" class="login-form" action="{% url 'accounts:login' %}">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{next}}">
         <!-- {{ form.as_p }} -->
@@ -26,5 +26,5 @@
             <button type="button" class="btn btn-danger">cancel</button>
         </a>
     </form>
-    <span class="signup-guide">아이디가 없으신가요? <a href="{% url 'account:signup' %}"><mark>회원가입</mark></a></span>
+    <span class="signup-guide">아이디가 없으신가요? <a href="{% url 'accounts:signup' %}"><mark>회원가입</mark></a></span>
 {% endblock content %}

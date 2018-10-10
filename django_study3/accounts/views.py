@@ -6,7 +6,7 @@ from .forms import UserCreationForm, InfoChangeForm
 
 
 class LoginView(views.LoginView):
-    template_name = 'account/login.html'
+    template_name = 'accounts/login.html'
 
     def get_context_data(self, **kwargs):
         context = super(LoginView, self).get_context_data(**kwargs)
@@ -34,8 +34,8 @@ class LogoutView(RedirectView):
 
 class SignupView(CreateView):
     form_class = UserCreationForm
-    template_name = 'account/signup.html'
-    success_url = reverse_lazy('account:login')
+    template_name = 'accounts/signup.html'
+    success_url = reverse_lazy('accounts:login')
 
     def form_valid(self, form):
         messages.info(self.request, "회원가입되었습니다.")
@@ -47,7 +47,7 @@ class SignupView(CreateView):
 class InfoChangeView(views.PasswordChangeView):
     form_class = InfoChangeForm
     success_url = '/'
-    template_name = 'account/info_change.html'
+    template_name = 'accounts/info_change.html'
 
     def form_valid(self, form):
         messages.info(self.request, "개인정보가 변경되었습니다.")

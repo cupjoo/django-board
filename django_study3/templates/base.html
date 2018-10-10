@@ -52,14 +52,14 @@
                 {% endif %}
                 <li>
                     {% if user.is_active %}
-                        <a href="{% url 'account:logout' %}">Logout</a>
+                        <a href="{% url 'accounts:logout' %}">Logout</a>
                     {% else %}
-                        <a href="{% url 'account:login' %}">Login</a>
+                        <a href="{% url 'accounts:login' %}">Login</a>
                     {% endif %}
                 </li>
                 {% if user.is_authenticated %}
                     <li>
-                        <a href="{% url 'account:info_change' %}">welcome, <span class='username'>{{ user.username }}</span></a>
+                        <a href="{% url 'accounts:info_change' %}">welcome, <span class='username'>{{ user.username }}</span></a>
                     </li>
                 {% endif %}
                 <!-- <li>

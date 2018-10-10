@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_summernote',
-    'account',
+    'accounts',
     'board',
 ]
 
@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'account.MyUser'
+AUTH_USER_MODEL = 'accounts.MyUser'
 
 
 # Internationalization

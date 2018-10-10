@@ -1,4 +1,4 @@
-from account.validators import MinLengthUsernameValidator, UnicodeUsernameValidator
+from accounts.validators import MinLengthUsernameValidator, UnicodeUsernameValidator
 from django.utils import timezone
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -43,7 +43,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         default=True,
         help_text=_(
             'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting account.'
+            'Unselect this instead of deleting accounts.'
         ),
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
