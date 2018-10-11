@@ -30,6 +30,7 @@ class PostCV(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         messages.info(self.request, '게시물이 작성되었습니다.')
+        self.success_url = '/'
         return super(PostCV, self).get_success_url()
 
     def form_valid(self, form):
