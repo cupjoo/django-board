@@ -62,18 +62,12 @@
                         <a href="{% url 'accounts:info_change' %}">welcome, <span class='username'>{{ user.username }}</span></a>
                     </li>
                 {% endif %}
-                <!-- <li>
-                    <a href="contact.html">Contact</a>
-                </li> -->
             </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container -->
 </nav>
 
 <!-- Page Header -->
-<!-- Set your background image for this header on the line below. -->
 <header class="intro-header" style="background-image: url('{% static 'img/home-bg.jpg' %}')">
     <div class="container">
         <div class="row">
@@ -90,14 +84,10 @@
     </div>
 </header>
 
-
 <!-- Main Content -->
 <div class="container">
     <div class="row">
-
-        {% block content %}
-        {% endblock %}
-
+        {% block content %}{% endblock %}
     </div>
 </div>
 
@@ -107,10 +97,9 @@
 <footer>
     <div class="container">
         <div class="row">
-
             <a class="footer" href="https://github.com/wayhome25"><img src="{% static 'img/profile-pic.png' %}" alt="로고" class="logo">
-                <p class="copyright text-muted">Copyright &copy; 초보몽키 2017</p></a>
-
+                <p class="copyright text-muted">Copyright &copy; 초보몽키 2017</p>
+            </a>
         </div>
     </div>
 </footer>

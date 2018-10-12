@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from django.contrib import messages
 from django.db.models import Q
-from .models import Post
-from .forms import PostForm
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 
 
 class PostLV(ListView):
@@ -39,3 +39,23 @@ class PostCV(LoginRequiredMixin, CreateView):
 
     def test_func(self):
         pass
+
+
+class PostDV(DetailView):
+    template_name = 'board/post_detail.html'
+    model = Post
+    form = CommentForm
+
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
+        author = request.user
+        content = request.POST.get('content')
+        Comment.objects.create(post=post,author=author, content=content)
+        messages.info(request, '댓글이 작성되었습니다.')
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs['form'] = self.form
+        context = super(PostDV, self).get_context_data(**kwargs)
+        context['comment_list'] = Comment.objects.filter(post=self.object).order_by('create_date')
+        return context

@@ -27,8 +27,12 @@
                 {% for post in object_list %}
                     <tr>
                         <td>{{ post.id }}</td>
-                        <td><a href="#">{{ post.title }} <span class="count">[{{ post.comments.count }}]</span></a></td>
-{#                        <td><a href="{% url 'board:post_detail' pk=post.pk %}">{{ post.title }} <span class="count">[{{ post.comments.count }}]</span></a></td>#}
+                        <td><a href="{% url 'board:post_detail' pk=post.pk %}">
+                            {{ post.title }}
+                            <span class="count">
+                                [{{ post.comments.count }}]
+                            </span>
+                        </a></td>
                         <td>{{ post.author }}</td>
                         <td>{{ post.create_date | date:"Y-m-d D" }}</td>
                     </tr>

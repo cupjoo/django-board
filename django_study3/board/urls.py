@@ -5,4 +5,5 @@ app_name = 'board'
 urlpatterns = [
     path('', PostLV.as_view(), name='post_list'),
     path('create/', PostCV.as_view(), name='post_create'),
+    path('<int:pk>/', PostDV.as_view(), name='post_detail'),
 ]
