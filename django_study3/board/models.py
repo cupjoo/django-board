@@ -24,7 +24,7 @@ class Post(summer_model.Attachment):
         return self.title
 
     def get_absolute_url(self):
-        return reverse_lazy('board:post_detail', kwargs=[self.id])
+        return reverse_lazy('board:post_detail', kwargs={'pk': self.id})
 
     def get_prev(self):
         return self.get_previous_by_create_date()

@@ -1,18 +1,19 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
 
-class PostLV(ListView):
+class PostListView(ListView):
     model = Post
     template_name = 'board/post_list.html'
     paginate_by = 7
 
     def get_queryset(self):
-        queryset = super(PostLV, self).get_queryset()
+        queryset = super(PostListView, self).get_queryset()
         keyword = self.request.GET.get('q')
 
         if keyword:
@@ -21,7 +22,7 @@ class PostLV(ListView):
             return queryset
 
 
-class PostCV(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'board/post_create.html'
     form_class = PostForm
@@ -31,17 +32,17 @@ class PostCV(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         messages.info(self.request, '게시물이 작성되었습니다.')
         self.success_url = '/'
-        return super(PostCV, self).get_success_url()
+        return super(PostCreateView, self).get_success_url()
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super(PostCV, self).form_valid(form)
+        return super(PostCreateView, self).form_valid(form)
 
     def test_func(self):
         pass
 
 
-class PostDV(DetailView):
+class PostDetailView(DetailView):
     template_name = 'board/post_detail.html'
     model = Post
     form = CommentForm
@@ -56,6 +57,26 @@ class PostDV(DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['form'] = self.form
-        context = super(PostDV, self).get_context_data(**kwargs)
+        context = super(PostDetailView, self).get_context_data(**kwargs)
         context['comment_list'] = Comment.objects.filter(post=self.object).order_by('create_date')
         return context
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = 'board/post_update.html'
+    form_class = PostForm
+
+    def get_success_url(self):
+        messages.info(self.request, '게시물이 수정되었습니다.')
+        return super(PostUpdateView, self).get_success_url()
+
+
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('board:post_list')
+
+    def get(self, request, *args, **kwargs):
+        response = self.delete(request, *args, **kwargs)
+        messages.info(request, '게시물이 삭제되었습니다.')
+        return response
