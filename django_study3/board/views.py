@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib import messages
@@ -92,3 +93,12 @@ class PostDeleteView(DeleteView):
         response = self.delete(request, *args, **kwargs)
         messages.info(request, '게시물이 삭제되었습니다.')
         return response
+
+
+def comment_delete(request, pk, c_pk):
+    comment = get_object_or_404(Comment, pk=c_pk)
+    success_url = reverse_lazy('board:post_detail', kwargs={'pk': pk})
+
+    if comment.author == request.user:
+        comment.delete()
+    return HttpResponseRedirect(success_url)

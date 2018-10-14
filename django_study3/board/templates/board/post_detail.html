@@ -55,8 +55,9 @@
                     <strong>{{ comment.author }}</strong>
                     <small>{{ comment.create_date | date:'Y-m-d H:i' }}</small>
                     {% if comment.author == user %}
-                        <a href="#"><img class="comment_edit" src="{% static 'img/edit.png' %}" alt=""></a>
-                        <a href="#"><img  class="comment_remove" src="{% static 'img/delete.png' %}" alt=""></a>
+                        <a href="{% url 'board:comment_delete' pk=post.pk c_pk=comment.pk %}">
+                            <img class="comment_remove" src="{% static 'img/delete.png' %}" alt="">
+                        </a>
                     {% endif %}
                 </div>
                 {% autoescape off %}
