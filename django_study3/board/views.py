@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
 from .models import Post, Comment
@@ -45,24 +45,30 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         pass
 
 
-class PostDetailView(DetailView):
+class PostDetailView(ListView):
     template_name = 'board/post_detail.html'
-    model = Post
+    paginate_by = 10
     form = CommentForm
 
-    def post(self, request, *args, **kwargs):
-        post = self.get_object()
-        author = request.user
-        content = request.POST.get('content')
-        Comment.objects.create(post=post,author=author, content=content)
-        messages.info(request, '댓글이 작성되었습니다.')
-        return self.get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = Post.objects.get(id=kwargs['pk'])
+        return super(PostDetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         kwargs['form'] = self.form
         context = super(PostDetailView, self).get_context_data(**kwargs)
-        context['comment_list'] = Comment.objects.filter(post=self.object).order_by('create_date')
+        context['post'] = self.object
         return context
+
+    def get_queryset(self):
+        return self.object.comment_set.order_by('create_date').all()
+
+    def post(self, request, *args, **kwargs):
+        author = request.user
+        content = request.POST.get('content')
+        self.object.comment_set.create(author=author, content=content)
+        messages.info(request, '댓글이 작성되었습니다.')
+        return self.get(request, *args, **kwargs)
 
 
 class PostUpdateView(UpdateView):

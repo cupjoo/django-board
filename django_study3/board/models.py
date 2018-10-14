@@ -34,7 +34,7 @@ class Post(summer_model.Attachment):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey('board.Post', related_name='comments', on_delete=models.CASCADE)
+    post = models.ForeignKey('board.Post', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField('content')
     create_date = models.DateTimeField('created date', auto_now_add=True)
