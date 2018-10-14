@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib import messages
@@ -16,6 +17,7 @@ class PostListView(ListView):
         queryset = super(PostListView, self).get_queryset()
         keyword = self.request.GET.get('q')
 
+        # 검색어 있을 시, 해당 포스트만 필터
         if keyword:
             return queryset.filter(Q(title__contains=keyword) | Q(content__contains=keyword))
         else:
@@ -67,6 +69,11 @@ class PostUpdateView(UpdateView):
     template_name = 'board/post_update.html'
     form_class = PostForm
 
+    def form_valid(self, form):
+        if self.get_object().author != self.request.user:
+            return HttpResponseRedirect(self.get_success_url())
+        return super().form_valid(form)
+
     def get_success_url(self):
         messages.info(self.request, '게시물이 수정되었습니다.')
         return super(PostUpdateView, self).get_success_url()
@@ -75,6 +82,11 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
     model = Post
     success_url = reverse_lazy('board:post_list')
+
+    def delete(self, request, *args, **kwargs):
+        if self.get_object().author != request.user:
+            return HttpResponseRedirect(self.success_url)
+        return super(PostDeleteView, self).delete(self, request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         response = self.delete(request, *args, **kwargs)
