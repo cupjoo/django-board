@@ -33,7 +33,7 @@ class InfoChangeForm(forms.ModelForm):
         widgets = {
             'username': forms.TextInput(attrs={
                 'class': 'form-control',
-                'disabled': True
+                'readonly': True,
             }),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
@@ -46,13 +46,6 @@ class InfoChangeForm(forms.ModelForm):
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
-
-        # set fields' initial values from user
-        initial = kwargs.get('initial', {})
-        for key in self.Meta.fields:
-            if hasattr(self.user, key):
-                initial[key] = getattr(self.user, key)
-        kwargs['initial'] = initial
         super(InfoChangeForm, self).__init__(*args, **kwargs)
 
     def clean_old_password(self):
@@ -80,8 +73,8 @@ class InfoChangeForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        self.user = super().save(commit=False)
-        self.user.set_password(self.cleaned_data["new_password1"])
+        password = self.cleaned_data["new_password1"]
+        self.user.set_password(password)
         if commit:
             self.user.save()
         return self.user

@@ -1,11 +1,14 @@
-from django.contrib.auth import views, logout
+from django.contrib.auth.views import *
+from django.contrib.auth import logout
 from django.contrib import messages
-from django.views.generic import RedirectView, CreateView
+from django.views.generic import RedirectView, CreateView, UpdateView
 from django.urls import reverse_lazy
+
+from accounts.models import MyUser
 from .forms import UserCreationForm, InfoChangeForm
 
 
-class LoginView(views.LoginView):
+class LoginView(LoginView):
     template_name = 'accounts/login.html'
 
     def get_context_data(self, **kwargs):
@@ -42,10 +45,16 @@ class SignupView(CreateView):
         return super(SignupView, self).form_valid(form)
 
 
-class InfoChangeView(views.PasswordChangeView):
+class InfoChangeView(UpdateView):
+    model = MyUser
     form_class = InfoChangeForm
-    success_url = '/'
+    success_url = reverse_lazy('board:post_list')
     template_name = 'accounts/info_change.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         messages.info(self.request, "개인정보가 변경되었습니다.")
