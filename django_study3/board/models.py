@@ -24,7 +24,7 @@ class Post(summer_model.Attachment):
         return self.title
 
     def get_absolute_url(self):
-        return reverse_lazy('board:post_detail', kwargs=[self.id])
+        return reverse_lazy('board:post_detail', kwargs={'pk': self.id})
 
     def get_prev(self):
         return self.get_previous_by_create_date()
@@ -34,7 +34,7 @@ class Post(summer_model.Attachment):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey('board.Post', related_name='comments', on_delete=models.CASCADE)
+    post = models.ForeignKey('board.Post', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField('content')
     create_date = models.DateTimeField('created date', auto_now_add=True)

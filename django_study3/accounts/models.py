@@ -46,6 +46,18 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'
         ),
     )
+    # PASSWORD_QUESTION = (
+    #     (0, '나의 출생 장소는?'),
+    #     (1, '나의 출신 초등학교는?'),
+    #     (2, '나의 보물 1호는?'),
+    #     (3, '가장 좋아하는 영화는?'),
+    #     (4, '가장 좋아하는 음식은?'),
+    #     (5, '가장 좋아하는 색깔은?'),
+    # )
+    # password_answer = models.CharField(
+    #     '비밀번호 찾기 답변',
+    #     max_length=11,
+    # )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     objects = UserManager()

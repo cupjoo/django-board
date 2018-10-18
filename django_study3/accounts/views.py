@@ -42,8 +42,6 @@ class SignupView(CreateView):
         return super(SignupView, self).form_valid(form)
 
 
-# 브라우저 종료 시 자동 로그아웃 구현
-# 클래스 오버라이딩
 class InfoChangeView(views.PasswordChangeView):
     form_class = InfoChangeForm
     success_url = '/'

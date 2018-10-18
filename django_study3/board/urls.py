@@ -3,6 +3,10 @@ from .views import *
 
 app_name = 'board'
 urlpatterns = [
-    path('', PostLV.as_view(), name='post_list'),
-    path('create/', PostCV.as_view(), name='post_create'),
+    path('', PostListView.as_view(), name='post_list'),
+    path('create/', PostCreateView.as_view(), name='post_create'),
+    path('<int:pk>/', PostDetailView.as_view(), name='post_detail'),
+    path('<int:pk>/update/', PostUpdateView.as_view(), name='post_update'),
+    path('<int:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
+    path('<int:pk>/<int:c_pk>/delete/', comment_delete, name='comment_delete'),
 ]
