@@ -108,6 +108,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 
+# Login Session Settings
+# https://docs.djangoproject.com/en/1.8/ref/settings/#sessions
+SESSION_COOKIE_AGE = 10 * 60
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
